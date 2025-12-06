@@ -5,15 +5,15 @@
         "api/index.php": { "runtime": "vercel-php@0.5.5" }
     },
     "routes": [
-        { "src": "/build/(.*)", "dest": "/public/build/" },
-        { "src": "/images/(.*)", "dest": "/public/images/" },
+        { "src": "/build/(.*)", "dest": "public/build/$1" },
+        { "src": "/images/(.*)", "dest": "public/images/$1" },
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://rumahkostrahmatika.vercel.app/",
-        "ASSET_URL": "https://rumahkostrahmatika.vercel.app/",
+        "APP_URL": "rumahkostrahmatika.vercel.app/",
+        "ASSET_URL": "rumahkostrahmatika.vercel.app/",
         "APP_KEY": "base64:p34zwlr8EKXXGFg3WTq5jVgCC5HmsXGoYtIXZcJrw28=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",

@@ -16,19 +16,19 @@
                         <thead class="bg-blue-50 text-blue-800">
                             <tr>
                                 <th class="px-4 py-2 border">Nama</th>
-                                <th class="px-4 py-2 border">Email</th> <!-- Kolom Email -->
-                                <th class="px-4 py-2 border">No. Telepon</th> <!-- Kolom No. Telepon -->
-                                <th class="px-4 py-2 border">Lokasi Kost</th> <!-- Kolom Lokasi Kost -->
+                                <th class="px-4 py-2 border">Email</th>
+                                <th class="px-4 py-2 border">No. Telepon</th>
+                                <th class="px-4 py-2 border">Lokasi Kost</th>
                                 <th class="px-4 py-2 border">Status</th>
                                 <th class="px-4 py-3 border">Tanggal Keluar</th>
-                                <th class="px-4 py-2 border">Aksi</th> <!-- Kolom Aksi -->
+                                <th class="px-4 py-2 border">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($penghunis as $penghuni)
                                 <tr class="hover:bg-blue-50 transition">
                                     <td class="px-4 py-2 border">{{ $penghuni->name }}</td>
-                                    <td class="px-4 py-2 border">{{ $penghuni->email }}</td> <!-- Menampilkan Email -->
+                                    <td class="px-4 py-2 border">{{ $penghuni->email }}</td>
                                     <td class="px-4 py-2 border">{{ $penghuni->phone }}</td>
                                     <td class="px-4 py-2 border">{{ $penghuni->lokasi_kost }}</td>
                                     <td class="px-4 py-2 border">
@@ -145,7 +145,7 @@
                                                 <strong>Status:</strong> {{ $penghuni->status }}<br>
                                                 @if ($penghuni->image)
                                                     <strong>Gambar:</strong><br>
-                                                    <img src="{{ asset($penghuni->image) }}"
+                                                    <img src="{{ asset('storage/' . $penghuni->image) }}"
                                                         alt="Gambar Penghuni"
                                                         class="img-fluid rounded mt-2 max-h-40 object-cover">
                                                 @else
@@ -223,152 +223,3 @@
 </x-app-layout>
 
 
-{{-- <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-semibold text-black">Daftar Penghuni</h3>
-                    <a href="{{ route('penghuni.create') }}"
-                        class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm font-semibold">
-                        <span>Tambah Penghuni</span>
-                    </a>
-                </div>
-
-                <div class="overflow-x-auto max-w-full">
-                    <table id="penghuni-table"
-                        class="w-full table-fixed border border-gray-200 text-sm rounded overflow-hidden">
-                        <thead class="bg-blue-50 text-blue-800">
-                            <tr>
-                                <th class="px-4 py-2 border">Nama</th>
-                                <th class="px-4 py-2 border">Email</th>
-                                <th class="px-4 py-2 border">No. Telepon</th>
-                                <th class="px-4 py-2 border">Lokasi Kost</th>
-                                <th class="px-4 py-2 border">Status</th>
-                                <th class="px-4 py-3 border">Tanggal Keluar</th>
-                                <th class="px-4 py-2 border">Aksi</th> <!-- Kolom Aksi -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($penghunis as $penghuni)
-                                <tr class="hover:bg-blue-50 transition">
-                                    <td class="px-4 py-2 border">{{ $penghuni->name }}</td>
-                                    <td class="px-4 py-2 border">{{ $penghuni->email }}</td>
-                                    <td class="px-4 py-2 border">{{ $penghuni->phone }}</td>
-                                    <td class="px-4 py-2 border">{{ $penghuni->lokasi_kost }}</td>
-                                    <td class="px-4 py-2 border">
-                                        @if (strtolower($penghuni->status) == 'aktif')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Aktif</span>
-                                        @else
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-200 rounded-full">Tidak
-                                                Aktif</span>
-                                        @endif
-                                    </td>
-
-                                    <!-- Tanggal Keluar -->
-                                    <td class="px-4 py-3 border text-black">
-                                        {{ $penghuni->penyewaanKost ? \Carbon\Carbon::parse($penghuni->penyewaanKost->tanggal_keluar)->format('d M Y') : '-' }}
-                                    </td>
-
-                                    <td class="px-4 py-2 border flex gap-3 justify-center items-center">
-                                        <!-- Tombol Edit -->
-                                        <a href="{{ route('penghuni.edit', $penghuni->id) }}"
-                                            class="inline-flex items-center justify-center w-9 h-9 bg-blue-100 text-custom-blue rounded-md hover:bg-custom-blue hover:text-white transition"
-                                            title="Edit">
-                                            <x-heroicon-o-pencil class="w-5 h-5" />
-                                        </a>
-
-                                        <!-- Tombol Detail -->
-                                        <button type="button"
-                                            class="inline-flex items-center justify-center w-9 h-9 bg-yellow-100 text-yellow-600 rounded-md hover:bg-yellow-600 hover:text-white transition"
-                                            data-bs-toggle="modal" data-bs-target="#detailModal-{{ $penghuni->id }}"
-                                            title="Detail">
-                                            <x-heroicon-o-eye class="w-5 h-5" />
-                                        </button>
-
-                                        <!-- Tombol Nonaktifkan -->
-                                        <form action="{{ route('penghuni.destroy', $penghuni->id) }}" method="POST"
-                                            class="inline" id="form-delete-{{ $penghuni->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button"
-                                                class="inline-flex items-center justify-center w-9 h-9 bg-red-100 text-red-600 rounded-md hover:bg-red-600 hover:text-white transition"
-                                                title="Nonaktifkan" onclick="confirmDeactivate({{ $penghuni->id }})">
-                                                <x-heroicon-o-trash class="w-5 h-5" />
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                <!-- Modal Detail -->
-                                <div class="modal fade" id="detailModal-{{ $penghuni->id }}" tabindex="-1"
-                                    aria-labelledby="detailModalLabel-{{ $penghuni->id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="detailModalLabel-{{ $penghuni->id }}">
-                                                    Detail Penghuni</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div>
-                                                    <strong>Nama:</strong> {{ $penghuni->name }}<br>
-                                                    <strong>Email:</strong> {{ $penghuni->email }}<br>
-                                                    <strong>No. Telepon:</strong> {{ $penghuni->phone }}<br>
-                                                    <strong>Lokasi Kost:</strong> {{ $penghuni->lokasi_kost }}<br>
-                                                    <strong>Status:</strong> {{ $penghuni->status }}<br>
-                                                    @if ($penghuni->image)
-                                                        <strong>Gambar:</strong><br>
-                                                        <img src="{{ asset('storage/' . $penghuni->image) }}"
-                                                            alt="Gambar Penghuni" class="img-fluid rounded mt-2"
-                                                            style="max-height: 150px;">
-                                                    @else
-                                                        <strong>Gambar:</strong><br>
-                                                        <span>Tidak ada gambar</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Tutup</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Include Bootstrap CSS and JS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Confirm deactivate function
-        function confirmDeactivate(id) {
-            Swal.fire({
-                title: 'Yakin ingin menonaktifkan penghuni ini?',
-                text: "Penghuni ini akan diubah statusnya menjadi Tidak Aktif.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, Nonaktifkan!',
-                cancelButtonText: 'Batal',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Submit form to deactivate penghuni
-                    document.getElementById('form-delete-' + id).submit();
-                }
-            });
-        }
-    </script>
-
-</x-app-layout> --}}

@@ -59,7 +59,8 @@ class PenghuniController extends Controller
             $storedPath = $image->storeAs('public/images', $imageName);
 
             // Ubah jadi path publik
-            $imagePath = str_replace('public/', 'storage/', $storedPath);
+            // $imagePath = str_replace('public/', 'storage/', $storedPath);
+            $imagePath = 'images/' . $imageName;
         }
 
         // Simpan ke tabel users
